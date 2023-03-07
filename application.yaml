@@ -1,8 +1,22 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: my-practice-argo
-#   namespace: argocd
-# spec:
-#   project: default
-#   source:
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-practice-argo
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/obusorezekiel/gitops-prac.git
+    targetRevision: HEAD
+    path: dev
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argo-app
+  
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+
+    automated:
+      selfHeal: true
+      prune: true
